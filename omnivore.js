@@ -92,7 +92,7 @@ class Omnivore {
                     }
                 }
             } else if (eatenType === 3) {
-                
+
                 for (let i in wildArr) {
                     if (
                         wildArr[i].x === this.x
@@ -101,7 +101,7 @@ class Omnivore {
                         wildArr.splice(i, 1);
                     }
                 }
-                
+
             }
         }
     }

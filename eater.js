@@ -1,5 +1,6 @@
-class GrassEater {
+class GrassEater extends LivingCreature  {
     constructor(x, y, index) {
+        super(x, y, index)
         this.x = x;
         this.y = y;
         this.energy = 8;
@@ -18,7 +19,7 @@ class GrassEater {
                 if (matrix[y][x] == character) {
                     found.push(this.directions[i]);
                 }
-            }
+            }return super.chooseCell(character);
 
         }
         return found;
@@ -36,13 +37,13 @@ class GrassEater {
         ];
     }
 
-    move () {
+    move() {
         this.energy--;
 
         var emptyCells = this.chooseCell(0);
         var newCell = random(emptyCells);
-        
-        if(newCell){
+
+        if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = 2;
@@ -53,24 +54,33 @@ class GrassEater {
         }
     }
 
-    eat () {
+    eat() {
         var grassCells = this.chooseCell(1);
         var newCell = random(grassCells);
-        
-        if(newCell){
+
+        if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = 2;
             matrix[this.y][this.x] = 0;
- 
+
             this.energy += 2;
 
             this.x = newX;
             this.y = newY;
+
+            for (let i in grassArr) {
+                if (
+                    grassArr[i].x === this.x
+                    && grassArr[i].y === this.y
+                ) {
+                    grassArr.splice(i, 1);
+                }
+            }
         }
     }
 
-    die () {
+    die() {
         matrix[this.y][this.x] = 0;
         for (var i in grassEaterArr) {
             if (grassEaterArr[i].x === this.x && grassEaterArr[i].y === this.y) {
@@ -79,7 +89,7 @@ class GrassEater {
         }
     }
 
-    mul () {
+    mul() {
         var emptyCells = this.chooseCell(0);
         var emptyCell = random(emptyCells);
 
@@ -88,7 +98,7 @@ class GrassEater {
             var newY = emptyCell[1];
 
             matrix[newY][newX] = 2;
-            
+
             var newGrassEater = new GrassEater(newX, newY, 1);
             grassEaterArr.push(newGrassEater);
         }

@@ -36,13 +36,13 @@ class Wild {
         ];
     }
 
-    move () {
+    move() {
         this.energy--;
 
         var emptyCells = this.chooseCell(0);
         var newCell = random(emptyCells);
-        
-        if(newCell){
+
+        if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = 3;
@@ -53,24 +53,33 @@ class Wild {
         }
     }
 
-    eat () {
+    eat() {
         var emptyCells = this.chooseCell(2);
         var newCell = random(emptyCells);
-        
-        if(newCell){
+
+        if (newCell) {
             var newX = newCell[0];
             var newY = newCell[1];
             matrix[newY][newX] = 3;
             matrix[this.y][this.x] = 0;
- 
+
             this.energy += 2;
 
             this.x = newX;
             this.y = newY;
+
+            for (let i in grassEaterArr) {
+                if (
+                    grassEaterArr[i].x === this.x
+                    && grassEaterArr[i].y === this.y
+                ) {
+                    grassEaterArr.splice(i, 1);
+                }
+            }
         }
     }
 
-    die () {
+    die() {
         matrix[this.y][this.x] = 0;
         for (var i in wildArr) {
             if (wildArr[i].x === this.x && wildArr[i].y === this.y) {
@@ -79,7 +88,7 @@ class Wild {
         }
     }
 
-    mul () {
+    mul() {
         var emptyCells = this.chooseCell(0);
         var emptyCell = random(emptyCells);
 
@@ -88,7 +97,7 @@ class Wild {
             var newY = emptyCell[1];
 
             matrix[newY][newX] = 3;
-            
+
             var newWild = new Wild(newX, newY, 1);
             wildArr.push(newWild);
         }
